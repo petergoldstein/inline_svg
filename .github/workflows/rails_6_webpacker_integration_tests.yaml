@@ -11,21 +11,20 @@ jobs:
         test-branch: [rails6-webpacker]
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Checkout test app
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: jamesmartin/inline_svg_test_app
         ref: ${{ matrix.test-branch }}
         path: test_app
     - name: Set up Ruby 2.7
-      uses: actions/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7.x
+        ruby-version: 2.7
+        bundler-cache: true
     - name: Build local gem
       run: |
-        gem install bundler
-        bundle install --jobs 4 --retry 3
         bundle exec rake build
     - name: Use the local gem in the test App
       id: uselocalgem
